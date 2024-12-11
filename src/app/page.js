@@ -6,7 +6,7 @@ export default function signIn() {
       {/* Side Section */}
       <div className="rounded-rectangle">
         <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold">Hi, Welcome Back!</h1>
-        <h3 className="mt-2 text-sm sm:text-base md:text-lg lg:text-xl">Don't have an account? <a href="#" className="click-here hover:underline">Click here</a></h3>
+        <h3 className="mt-2 text-sm sm:text-base md:text-lg lg:text-xl">Don't have an account? <a href="#" className="click-here hover:underline">FarrahClick here</a></h3>
       </div>
 
       {/* Right Section - Sign In Form */}
