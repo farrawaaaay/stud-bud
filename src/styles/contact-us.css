@@ -1,0 +1,151 @@
+.contact-main-section{
+    background-color: #abccce;
+    height: 90vh;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}  
+
+.form-container {
+    height: 70%;
+    width: 50%;
+    border-radius: 10px;
+    display: flex;
+    justify-content: flex-end; 
+    position: relative;
+}
+
+.contact-side {
+    background-color: #3C6E71;
+    height: 70%;
+    width: 40%;
+    position: absolute; 
+    left: 0; 
+    top: 15%; 
+    z-index: 1; 
+    box-shadow: 10px 10px 10px #0000005c;
+    border-radius: 38px;
+    border: 5px solid #f4f4f9;
+    padding: 5% 7%;
+}
+
+.contact-side h2{
+    text-align: center;
+    color: #f4f4f9;
+    margin-top:10%;
+    font-weight: 400;
+    font-size: 100%;
+}
+
+.contact-side ul{
+    padding-top: 10%;
+}
+
+.contact-side ul li{
+    color: #f4f4f9;
+    line-height: 2;
+    list-style: none;
+    font-size: 1vw;
+}
+
+.form-side {
+    background-color: #f4f4f9;
+    height: 100%;
+    width: 80%;
+    z-index: 0; /* Ensure it is behind the contact-side */
+    border-radius: 20px;
+    border: 5px solid #3C6E71;
+}
+
+.form-side h1{
+    margin-top: 10%;
+}
+
+.form-side-content{
+    margin-left: 35%;
+    margin-right: 15%;
+}
+
+.form{
+    display: flex;
+    flex-direction: column;
+    padding-top: 10%;
+    gap: 10px;
+}
+
+.form-group{
+    display: flex;
+    flex-direction: column;
+}
+
+.form label{
+    font-size: small;
+}
+
+.form input, .form textarea{
+    font-family: var(--font-raleway), Arial, sans-serif;
+    padding: 10px;
+    font-size: 13px;
+    border-radius: 5px;
+    border: 1px solid #3C6E71;
+}
+
+.form input:focus, .form textarea:focus{
+    border: 3px solid #3C6E71;
+    outline: none;
+    box-shadow: 0 0 5px rgba(60, 110, 113, 0.5);
+}
+
+.submit-button{
+    font-family: var(--font-raleway), Arial, sans-serif;
+    background-color: #3C6E71;
+    color: #f4f4f9;
+    font-weight: bold;
+    width:50%;
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+}
+
+.submit-button:hover{
+    cursor: pointer;
+    background-color: #294a4b;
+}
+
+.dots{
+    visibility: hidden;
+}
+
+@media (max-width: 800px) {
+    .contact-main-section{
+        height: 120vh;
+    }
+    
+    .form-container{
+        flex-direction: column;
+        width:70%;
+        height: 100vh;
+    }
+    
+    .contact-side{
+        width: 80%;
+        height: auto;
+        padding-bottom: 10%;
+        top: 0; 
+        left:10%;
+    }
+
+    .contact-side ul li{
+        font-size: 10px;
+    }
+
+    .form-side{
+        width: auto;
+        height: 80%;
+    }
+
+    .form-side-content{
+        margin-left: 15%;
+        margin-top:30%;
+    }
+}
