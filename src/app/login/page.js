@@ -1,70 +1,73 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from "next/image";
 import "../../styles/login.css"; 
 import { validateEmail, validatePassword, validateFullName } from '../utils/validation';
 
 export default function LoginPage() {
-    const router = useRouter();
-    const [formData, setFormData] = useState({
-      email: '',
-      password: '',
-    });
-    const [formErrors, setFormErrors] = useState({});
-    const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false);
-  
-    // Handle input changes
-    const handleChange = (e) => {
-      const { name, value } = e.target;
-      setFormData((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
-    };
-  
-    // Validate form inputs
-    const validateForm = () => {
-      const errors = {};
-      if (!formData.email) errors.email = 'Email is required';
-      if (!formData.password) errors.password = 'Password is required';
-      return errors;
-    };
-  
-    // Submit form for login
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-      setError('');
-      setFormErrors({});
-      setLoading(true);
-  
-      const errors = validateForm();
-      if (Object.keys(errors).length > 0) {
-        setFormErrors(errors);
-        setLoading(false);
-        return;
+  const router = useRouter();
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  });
+  const [formErrors, setFormErrors] = useState({});
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  // Handle input changes
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  // Validate form inputs
+  const validateForm = () => {
+    const errors = {};
+    if (!formData.email) errors.email = 'Email is required';
+    if (!formData.password) errors.password = 'Password is required';
+    return errors;
+  };
+
+  // Submit form for login
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setFormErrors({});
+    setLoading(true);
+
+    const errors = validateForm();
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || 'Invalid email or password');
       }
-  
-      try {
-        const res = await fetch('/api/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(formData),
-        });
-  
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error || 'Invalid email or password');
-  
-        // Redirect to the dashboard or home page
-        router.push('/dashboard');
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
+
+      // Redirect to the dashboard or home page
+      router.push('/');
+    } catch (err) {
+      setError(err.message); // Show the error from the API response
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="container">
@@ -77,17 +80,16 @@ export default function LoginPage() {
           Create Account
         </button>
       </div>
-        
 
-        <form className="left-form" onSubmit={handleSubmit}>
-          {error && <p className="text-red-500">{error}</p>}
-          <Image
-            src="/studbud-logo.svg"
-            alt="Studbud Logo"
-            width={100}
-            height={100}
-          />
-          <h2 className="text-center text-3xl font-extrabold text-gray-900">
+      <form className="left-form" onSubmit={handleSubmit}>
+        {error && <p className="text-red-500">{error}</p>}
+        <Image
+          src="/studbud-logo.svg"
+          alt="Studbud Logo"
+          width={100}
+          height={100}
+        />
+        <h2 className="text-center text-3xl font-extrabold text-gray-900">
           Login to your StudBud account
         </h2>
         <div className="mt-4">
@@ -119,8 +121,7 @@ export default function LoginPage() {
         >
           {loading ? 'Logging in...' : 'Login'}
         </button>
-        </form>
-      </div>
-    
+      </form>
+    </div>
   );
 }

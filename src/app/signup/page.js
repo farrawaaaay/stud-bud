@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from "next/image";
-import "../../styles/login.css"
+import "../../styles/login.css";
 import { validateEmail, validatePassword, validateFullName } from '../utils/validation';
 
 export default function SignupPage() {
@@ -82,62 +82,60 @@ export default function SignupPage() {
           Go to Sign In
         </button>
       </div>
-        
 
-        <form className="right-form" onSubmit={handleSubmit}>
-          {error && <p className="text-red-500">{error}</p>}
-          <Image
-            src="/studbud-logo.svg"
-            alt="Studbud Logo"
-            width={100}
-            height={100}
-          />
-          <h2 className="text-center text-3xl font-extrabold text-gray-900">
+      <form className="right-form" onSubmit={handleSubmit}>
+        {error && <p className="text-red-500">{error}</p>}
+        <Image
+          src="/studbud-logo.svg"
+          alt="Studbud Logo"
+          width={100}
+          height={100}
+        />
+        <h2 className="text-center text-3xl font-extrabold text-gray-900">
           Create your StudBud account
         </h2>
-          <div>
-            <input
-              name="name"
-              type="text"
-              placeholder="Username"
-              value={formData.name}
-              onChange={handleChange}
-              className="w-full p-2 border rounded"
-            />
-            {formErrors.name && <p className="text-sm text-red-500">{formErrors.name}</p>}
-          </div>
-          <div>
-            <input
-              name="email"
-              type="email"
-              placeholder="Email"
-              value={formData.email}
-              onChange={handleChange}
-              className="w-full p-2 border rounded"
-            />
-            {formErrors.email && <p className="text-sm text-red-500">{formErrors.email}</p>}
-          </div>
-          <div>
-            <input
-              name="password"
-              type="password"
-              placeholder="Password"
-              value={formData.password}
-              onChange={handleChange}
-              className="w-full p-2 border rounded"
-            />
-            {formErrors.password && <p className="text-sm text-red-500">{formErrors.password}</p>}
-          </div>
+        <div>
+          <input
+            name="name"
+            type="text"
+            placeholder="Username"
+            value={formData.name}
+            onChange={handleChange}
+            className="w-full p-2 border rounded"
+          />
+          {formErrors.name && <p className="text-sm text-red-500">{formErrors.name}</p>}
+        </div>
+        <div>
+          <input
+            name="email"
+            type="email"
+            placeholder="Email"
+            value={formData.email}
+            onChange={handleChange}
+            className="w-full p-2 border rounded"
+          />
+          {formErrors.email && <p className="text-sm text-red-500">{formErrors.email}</p>}
+        </div>
+        <div>
+          <input
+            name="password"
+            type="password"
+            placeholder="Password"
+            value={formData.password}
+            onChange={handleChange}
+            className="w-full p-2 border rounded"
+          />
+          {formErrors.password && <p className="text-sm text-red-500">{formErrors.password}</p>}
+        </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full p-2 bg-indigo-600 text-white rounded hover:bg-indigo-700"
-          >
-            {loading ? 'Signing up...' : 'Sign Up'}
-          </button>
-        </form>
-      </div>
-    
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full p-2 bg-indigo-600 text-white rounded hover:bg-indigo-700"
+        >
+          {loading ? 'Signing up...' : 'Sign Up'}
+        </button>
+      </form>
+    </div>
   );
 }

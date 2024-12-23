@@ -13,22 +13,16 @@ export async function POST(request) {
     // Find user by email
     const student = await Student.findOne({ email });
     if (!student) {
-      return NextResponse.json(
-        { error: 'Invalid email or password' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'Invalid email or password' }, { status: 400 });
     }
 
-    // Compare password
-    const isPasswordValid = await bcrypt.compare(password, student.password);
-    if (!isPasswordValid) {
-      return NextResponse.json(
-        { error: 'Invalid email or password' },
-        { status: 401 }
-      );
+    // Compare the password with the hashed password stored in the database
+    const isMatch = await bcrypt.compare(password, student.password);
+    if (!isMatch) {
+      return NextResponse.json({ error: 'Invalid email or password' }, { status: 400 });
     }
 
-    // Success response (optionally include user data)
+    // Return a response with the student data (without the password)
     return NextResponse.json(
       { 
         message: 'Login successful',
@@ -43,9 +37,6 @@ export async function POST(request) {
 
   } catch (error) {
     console.error('Login error:', error);
-    return NextResponse.json(
-      { error: 'Error logging in' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }
