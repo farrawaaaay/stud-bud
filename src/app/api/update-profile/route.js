@@ -3,7 +3,7 @@ import Student from '@/models/Student';
 import mongoose from 'mongoose';
 
 export async function POST(req) {
-  const { email, profilePic } = await req.json();  // Ensure you're parsing the request body as JSON
+  const { email, profilePicture } = await req.json();  // Ensure you're parsing the request body as JSON
 
   // Validate email
   if (!email || typeof email !== 'string') {
@@ -18,7 +18,7 @@ export async function POST(req) {
     // Find the student by email and update the profile picture
     const updatedStudent = await Student.findOneAndUpdate(
       { email: email },
-      { profilePicture: profilePic },
+      { profilePicture: profilePicture },
       { new: true }
     );
 
