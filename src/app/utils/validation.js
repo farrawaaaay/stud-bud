@@ -17,10 +17,10 @@ export const validateEmail = (email) => {
     return "";
   };
   
-  export const validateFullName = (fullName) => {
-    if (!fullName) return "Full name is required";
-    if (fullName.length < 2) return "Full name must be at least 2 characters";
-    if (fullName.length > 100) return "Full name must be less than 100 characters";
-    if (!/^[a-zA-Z\s'-]+$/.test(fullName)) return "Full name can only contain letters, spaces, hyphens and apostrophes";
+  export const validateUsername = (name) => {
+    if (!name) return "Username is required";
+    if (name.length < 3) return "Username must be at least 3 characters";
+    if (name.length > 100) return "Username must be less than 100 characters";
+    if (!/^[a-zA-Z0-9\s'-]+$/.test(name)) return "Username can only contain letters, numbers, spaces, hyphens, and apostrophes";
     return "";
-  };
+};

@@ -1,33 +1,32 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 
-const studentSchema = new mongoose.Schema(
-  {
-    email: {
-      type: String,
-      required: [true, 'Please provide an email'],
-      unique: true,
-      lowercase: true, // Ensure emails are stored in lowercase
-      trim: true, // Remove any extra spaces around email
-    },
-    password: {
-      type: String,
-      required: [true, 'Please provide a password'],
-      minlength: [6, 'Password must be at least 6 characters long'],
-    },
-    name: {
-      type: String,
-      required: [true, 'Please provide a name'],
-    },
-    createdAt: {
-      type: Date,
-      default: Date.now,
-    },
+const studentSchema = new mongoose.Schema({
+  email: { 
+    type: String, 
+    required: true, 
+    unique: true 
   },
-  {
-    timestamps: true, // Automatically adds createdAt and updatedAt
-  }
-);
+  password: { 
+    type: String, 
+    required: true 
+  },
+  name: { 
+    type: String, 
+    required: true, 
+    unique: true 
+  },
+  profilePicture: { 
+    type: String, 
+    default: 'src="https://res.cloudinary.com/dvorbtw7b/image/upload/v1735892282/StudBud/default_profile.svg' 
+  }, // Default profile picture URL
+  createdAt: { 
+    type: Date, 
+    default: Date.now 
+  },
+});
+
+
 
 // Hash password before saving user
 studentSchema.pre('save', async function (next) {

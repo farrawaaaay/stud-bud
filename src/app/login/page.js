@@ -1,22 +1,29 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from "next/image";
-import "../../styles/login.css"; 
-import { validateEmail, validatePassword, validateFullName } from '../utils/validation';
+import Link from "next/link";
+import "../../styles/login.css";
+import { FaEye, FaEyeSlash, FaUser } from 'react-icons/fa';
+import { ClipLoader } from 'react-spinners';
 
 export default function LoginPage() {
   const router = useRouter();
   const [formData, setFormData] = useState({
-    email: '',
+    name: '',
     password: '',
   });
   const [formErrors, setFormErrors] = useState({});
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [isClient, setIsClient] = useState(false);
 
-  // Handle input changes
+  useEffect(() => {
+    setIsClient(true); 
+  }, []);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -25,101 +32,117 @@ export default function LoginPage() {
     }));
   };
 
-  // Validate form inputs
   const validateForm = () => {
     const errors = {};
-    if (!formData.email) errors.email = 'Email is required';
+    if (!formData.name) errors.name = 'Username is required';
     if (!formData.password) errors.password = 'Password is required';
+    else if (formData.password.length < 8) errors.password = 'Password must be at least 8 characters';
     return errors;
   };
 
-  // Submit form for login
+  const togglePasswordVisibility = () => {
+    setShowPassword((prevState) => !prevState);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setFormErrors({});
     setLoading(true);
-
+  
     const errors = validateForm();
     if (Object.keys(errors).length > 0) {
       setFormErrors(errors);
       setLoading(false);
       return;
     }
-
+  
     try {
       const res = await fetch('/api/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
-
+  
       const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.error || 'Invalid email or password');
+  
+      if (res.status !== 200) {
+        setError(data.error || 'Login failed');
+        setLoading(false);
+        return;
       }
-
-      // Redirect to the dashboard or home page
-      router.push('/');
+  
+      // Store user data in localStorage
+      localStorage.setItem('user', JSON.stringify({
+        _id: data.student._id,
+        name: data.student.name,
+        profilePicture: data.student.profilePicture, 
+        email:data.student.email,
+      }));
+  
+      router.push('/workspace');
     } catch (err) {
-      setError(err.message); // Show the error from the API response
+      setError(err.message);
     } finally {
       setLoading(false);
     }
   };
+  
 
   return (
     <div className="container">
-      <div className="right-panel">
-        <h2> Hi, Welcome! </h2>
-        <p>Sign up to create an account.</p>
-        <button
-          onClick={() => router.push('/signup')}
-        >
-          Create Account
-        </button>
+      <div className="left-panel">
+        <Image
+          src="/studbud-darkmode.svg"
+          height={100}
+          width={100}
+          alt="studbud logo"
+        />
+        <h2>Welcome Back!</h2>
+        <p>Maintain your productivity by visiting us regularly and staying on track.</p>
+        <p>
+          No account yet? Let’s fix that—<b><Link href="/signup" className="little-link">sign up</Link></b> now!
+        </p>
       </div>
 
-      <form className="left-form" onSubmit={handleSubmit}>
-        {error && <p className="text-red-500">{error}</p>}
-        <Image
-          src="/studbud-logo.svg"
-          alt="Studbud Logo"
-          width={100}
-          height={100}
-        />
-        <h2 className="text-center text-3xl font-extrabold text-gray-900">
-          Login to your StudBud account
-        </h2>
-        <div className="mt-4">
+      <form className="right-form" onSubmit={handleSubmit}>
+        <h2>Login</h2>
+        {error && <p className="error-message">{error}</p>}
+        <div className={`input-container ${formErrors.name ? 'error' : ''}`}>
           <input
-            name="email"
-            type="email"
-            placeholder="Email"
-            value={formData.email}
+            name="name"
+            type="text"
+            placeholder="Username"
+            value={formData.name}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
+            autoComplete="off"  
           />
-          {formErrors.email && <p className="text-sm text-red-500">{formErrors.email}</p>}
+          <FaUser className='Fa' />
         </div>
-        <div className="mt-4">
+        {formErrors.name && <p className="error-message side-error">{formErrors.name}</p>}
+        <div className={`input-container ${formErrors.password ? 'error' : ''}`}>
           <input
             name="password"
-            type="password"
+            type={showPassword ? "text" : "password"}
             placeholder="Password"
             value={formData.password}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
+            autoComplete="off"  
           />
-          {formErrors.password && <p className="text-sm text-red-500">{formErrors.password}</p>}
+          <button
+            type="button"
+            className="toggle-password"
+            onClick={togglePasswordVisibility}
+            aria-label={showPassword ? "Hide password" : "Show password"}
+          >
+            {showPassword ? <FaEyeSlash className='Fa'/> : <FaEye className='Fa'/>}
+          </button>
         </div>
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full p-2 mt-4 bg-indigo-600 text-white rounded hover:bg-indigo-700"
-        >
-          {loading ? 'Logging in...' : 'Login'}
+        {formErrors.password && <p className="error-message side-error">{formErrors.password}</p>}
+        <Link href="/forgot-password">Forgot Password?</Link>
+        
+        <button className="submit-button" type="submit" disabled={loading}>
+          {isClient && loading ? <ClipLoader size={24} color="#ffffff" /> : 'SIGN IN'}
         </button>
       </form>
     </div>

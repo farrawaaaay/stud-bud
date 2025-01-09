@@ -1,0 +1,154 @@
+.container {
+    display: flex;
+    height: 100vh;
+    flex-direction: row-reverse;
+  }
+  
+  .right-panel {
+    background-color: #3C6E71;
+    height: 100%;
+    width: 50vw;
+    padding:10%;
+    border-top-left-radius: 100px;
+    border-bottom-left-radius: 100px;
+    justify-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Vertically center content */
+    align-items: center; /* Horizontally center content */
+  }
+  
+  .right-panel h2, .right-panel p {
+    color: #f4f4f9;
+  }
+  
+  .right-panel h2{
+    font-size: 3vw;
+  }
+  
+  .little-link{
+    color: #f4f4f9;
+    text-decoration: none;
+  }
+  
+  .little-link:hover{
+    text-decoration: underline;
+  }
+
+  .left-form {
+    width: 50vw; /* Match the width of the left panel */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center vertically */
+    text-align: center;
+    padding: 10% 10%;
+  }
+
+  .left-form h2{
+    font-size: 4vw;
+    margin-bottom: 10%;
+  }
+  
+  .left-form input{
+    margin:10px;
+    font-family: var(--font-raleway), Arial, sans-serif;
+    border: none;
+    background: none;
+    width:80%;
+    font-size: 18px;
+  }
+  
+  .left-form input::placeholder{
+    color: #000000bd;
+  }
+  
+  .left-form input:focus{
+    outline:none;
+  }
+
+  .submit-button{
+    font-family: var(--font-raleway), Arial, sans-serif;
+    width:30%;
+    display: block;
+    margin: 0 auto;
+    border-radius: 40px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border: none;
+    background-color: #3C6E71;
+    font-weight: bold;
+    color:#f4f4f9;
+    margin-top:10%;
+  }
+
+  .submit-button:hover{
+    cursor: pointer;
+    background-color: #294a4b;
+  }
+
+  .left-form p{
+    margin-top: 10px;
+    font-size: 12px;
+  }
+
+  .left-form a {
+    color: #3C6E71;
+    text-decoration: none;
+  }
+
+  .left-form a:hover{
+    color: #294a4b;
+    text-decoration: underline;
+  }
+
+
+  .input-container{
+  margin:10px;
+  border-radius: 13px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  font-family: var(--font-raleway), Arial, sans-serif;
+  border: 1px solid transparent;
+  background-color: #d9d9d98a;
+  width:100%;
+  font-size: 18px;
+}
+
+.input-container:focus-within {
+  box-shadow: inset 0 0 0 2px #294a4b;
+}
+
+.toggle-password {
+  position: relative;
+  background: none;
+  border: none;
+  font-size: 18px; /* Adjust size for the icon */
+  cursor: pointer;
+  color: #000;
+}
+
+.error-message {
+  color: #eb3939;
+  font-size: 12px;
+  top:-10px;
+  position: relative;
+}
+
+.side-error{
+  margin-left: 0;
+  margin-right: auto;
+  padding-left: 20px;
+}
+
+.input-container.error  {
+  box-shadow: inset 0 0 0 2px #eb3939;
+  background-color: #fe81813b;
+}
+
+.input-container.error input::placeholder {
+  color: #eb3939;
+}
+
+.input-container.error .Fa{
+  color: #eb3939;
+}

@@ -5,24 +5,41 @@ import Student from '@/models/Student';
 
 export async function POST(request) {
   try {
-    const { email, password } = await request.json();
+    // Step 1: Parse the incoming request
+    const { name, password } = await request.json();
 
-    // Connect to database
+    // Step 2: Log the received name and password (avoid in production)
+    console.log('Received name:', name);
+
+    // Step 3: Validate input fields
+    if (!name || !password) {
+      return NextResponse.json({ error: 'Username and password are required' }, { status: 400 });
+    }
+
+    // Step 4: Connect to the database
     await connectDB();
 
-    // Find user by email
-    const student = await Student.findOne({ email });
+    // Step 5: Find user by name
+    const student = await Student.findOne({ name });
+
+    // Step 6: Ensure student exists
     if (!student) {
-      return NextResponse.json({ error: 'Invalid email or password' }, { status: 400 });
+      console.log(`No student found with name: ${name}`);
+      return NextResponse.json({ error: 'User not found' }, { status: 400 });
     }
 
-    // Compare the password with the hashed password stored in the database
+    // Step 7: Log the student object (ensure sensitive data like password is not logged)
+    console.log('Student found:', { id: student._id, name: student.name, email: student.email, profilePicture: student.profilePicture });
+
+    // Step 8: Check if the password matches
     const isMatch = await bcrypt.compare(password, student.password);
+    console.log('Password match result:', isMatch);
+
     if (!isMatch) {
-      return NextResponse.json({ error: 'Invalid email or password' }, { status: 400 });
+      return NextResponse.json({ error: 'Invalid username or password' }, { status: 400 });
     }
 
-    // Return a response with the student data (without the password)
+    // Step 9: Return student data without the password
     return NextResponse.json(
       { 
         message: 'Login successful',
@@ -30,6 +47,7 @@ export async function POST(request) {
           id: student._id,
           name: student.name,
           email: student.email,
+          profilePicture: student.profilePicture,
         }
       },
       { status: 200 }
