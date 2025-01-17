@@ -133,6 +133,7 @@
   .modal-content button {
     width: 100%;
     margin-bottom: 10px;
+    font-family: var(--font-raleway), Arial, sans-serif;
     
   }
 

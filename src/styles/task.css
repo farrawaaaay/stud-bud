@@ -42,6 +42,7 @@
     display: flex;
     gap: 10px;
     justify-content: center;
+    margin: 10px 0px;
 }
 
 .process-view button{
@@ -51,11 +52,17 @@
     border:none;
     background-color: rgba(60, 110, 113, 0.45);
     color:#f4f4f6;
+    cursor: pointer;
+}
+
+.process-view button:hover{
+  color:#d2dee385;
 }
 
 .process-view button.active {
     background-color: #3C6E71; /* Green background for active button */
     font-weight: bold;
+    pointer-events: none;
   }
 
 .task-list{
@@ -90,12 +97,12 @@
   
   /* Modal Content */
   .modal-content {
-    background-color: #fff;
+    background-color: #b4e6e9;
     padding: 20px;
     border-radius: 8px;
-    width: 400px;
-    max-width: 90%;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+    box-sizing: border-box;
     position: relative;
   }
   
@@ -108,43 +115,45 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 16px;
+    font-family: var(--font-raleway), Arial, sans-serif;
   }
   
-  /* Buttons */
-  .modal-content .note-buttons,
-  .modal-content .task-buttons {
+  .task-buttons {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;  
+    align-items: center;      
+    gap: 10px;                
   }
   
-  .create-note,
+
   .create-task {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 20px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 3px solid #3C6E71;
+    font-family: var(--font-raleway), Arial, sans-serif;
+    color: #3C6E71;
+    font-weight: bold;
     cursor: pointer;
-    border-radius: 4px;
   }
   
-  .create-note:hover,
   .create-task:hover {
-    background-color: #0056b3;
+    background-color: #2d5254;
+    color:#f4f4f6;
   }
   
-  .cancel-note,
   .cancel-task {
-    background-color: #f0f0f0;
-    color: #333;
-    border: 1px solid #ccc;
-    padding: 10px 20px;
+    padding: 5px 10px;
+    color: #f44336;
+    border: 3px solid #f44336;
+    font-family: var(--font-raleway), Arial, sans-serif;
+    border-radius: 5px;
     cursor: pointer;
-    border-radius: 4px;
+    font-weight: bold;
   }
   
-  .cancel-note:hover,
   .cancel-task:hover {
-    background-color: #ddd;
+    background-color: #d32f2f; /* Darker red on hover */
+    color:#f4f4f6;
   }
   
   /* Prevent background click from closing modal */
@@ -180,4 +189,53 @@
   .close-modal:hover {
     color: red;
   }
+  
+
+
+  .task-details{
+    margin-top:10px;
+    font-style: italic;
+  }
+
+  .task-item h3{
+    margin-bottom:10px;
+    cursor: pointer;
+  }
+
+  .task-item h3:hover{
+    color: #3C6E71;
+  }
+
+  .checkbox{
+    display: flex;
+    gap:10px;
+  }
+
+  .checkbox input[type="checkbox"] {
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    position: relative;
+    cursor: pointer;
+  }
+
+  
+  .checkbox input[type="checkbox"]:checked {
+    background-color: #3C6E71; /* Color when checked */
+    border-color: #3C6E71;
+  }
+
+  .checkbox label{
+    display: flex;
+    gap:2px;
+  }
+  
+  
+  
+  
+  
+ 
+  
   

@@ -1,15 +1,17 @@
 'use client';
 
 import { useState, useEffect } from "react";
-import PomodoroTimer from "../timer/page";
+
 import Notes from "../notes/page";
-import Music from "../spotify/page"
+import Music from "../spotify/page";
+import Tasks from "../task/page";
+import PomodoroTimer from "../timer/page";
+import StudbudCalendar from "../studbud-calendar/page";
 import Image from "next/image"; 
+
 import "../../styles/workspace.css";
 import { useRouter } from 'next/navigation';
-import Calendar from 'react-calendar'; // Import the Calendar component
-import 'react-calendar/dist/Calendar.css'; // Import styles for the calendar
-import "../../styles/calendar.css";
+
 
 export default function Home() {
   const [isProfileOpen, setProfileOpen] = useState(false);
@@ -19,42 +21,7 @@ export default function Home() {
   const [isCalendarVisible, setCalendarVisible] = useState(false);
   const [isTimerVisible, setTimerVisible] = useState(false);
   const [isNotesVisible, setNotesVisible] = useState(false);
-  const [calendarPosition, setCalendarPosition] = useState({ top: 10, left: 100 });
-  const [timerPosition, setTimerPosition] = useState({ top: 10, left: 600 });
-  const [notesPosition, setNotesPosition] = useState({top:10, left: 600});
-  
-
-
-  const handleDragStart = (e, type) => {
-    // Store the initial offset from where the drag started
-    e.dataTransfer.setData('type', type);
-    e.dataTransfer.setData('offsetX', e.clientX - (type === 'calendar' ? calendarPosition.left : type === 'notes' ? notesPosition.left : timerPosition.left));
-    e.dataTransfer.setData('offsetY', e.clientY - (type === 'calendar' ? calendarPosition.top : type === 'notes' ? notesPosition.top : timerPosition.top));
-  };
-  
-  const handleDrop = (e, type) => {
-    const offsetX = parseInt(e.dataTransfer.getData('offsetX'));
-    const offsetY = parseInt(e.dataTransfer.getData('offsetY'));
-  
-    // Calculate the new position without any restrictions (No minLeft, minTop)
-    const newLeft = e.clientX - offsetX;
-    const newTop = e.clientY - offsetY;
-  
-    // Ensure that the new position is calculated correctly without being restricted
-    if (type === 'calendar') {
-      setCalendarPosition({ top: newTop, left: newLeft });
-    } else if (type === 'notes') {
-      setNotesPosition({ top: newTop, left: newLeft });
-    } else {
-      setTimerPosition({ top: newTop, left: newLeft });
-    }
-  };
-  
-
-const handleDragOver = (e) => {
-  e.preventDefault(); // Allow dropping
-};
-
+  const [isTaskVisible, setTaskVisible] = useState(false);
 
   const router = useRouter();
 
@@ -62,12 +29,7 @@ const handleDragOver = (e) => {
     setProfileOpen(!isProfileOpen);
   };
 
-  const tileClassName = ({ date }) => {
-    if (date.getDay() === 0) {
-      return 'sunday';
-    }
-    return null;
-  };
+  
 
   const toggleSide = () => {
     setSideOpen(!isSideOpen);
@@ -88,6 +50,10 @@ const handleDragOver = (e) => {
   const toggleNotes = () => {
     setNotesVisible(!isNotesVisible);
   };
+
+  const toggleTask = () => {
+    setTaskVisible(!isTaskVisible);
+  }
 
   const logout = () => {
     // Remove user and token data from localStorage
@@ -244,7 +210,7 @@ const handleDragOver = (e) => {
               />
               {isSideOpen && <span className="title">Calendar</span>}
             </li >
-            <li onClick={() => router.push("/task")}>
+            <li onClick={toggleTask}>
               <Image
                 src="/Task.svg"
                 alt="Task Icon"
@@ -284,44 +250,33 @@ const handleDragOver = (e) => {
           </ul>
         </div>
 
+        <div className="main-space">
+
         {isCalendarVisible && (
-          <div
-            className="calendar-container"
-            style={{ top: calendarPosition.top, left: calendarPosition.left }}
-            draggable
-            onDragStart={(e) => handleDragStart(e, 'calendar')}
-            onDrop={(e) => handleDrop(e, 'calendar')}
-            onDragOver={handleDragOver}
-          >
-            <Calendar tileClassName={tileClassName} />
+          <div className="calendars-container">
+            <StudbudCalendar />
           </div>
         )}
 
+        {isTaskVisible && (
+        <div className="tasks-container">
+          <Tasks/>
+        </div>
+        )}
+
         {isTimerVisible && (
-          <div
-            className="timer-container"
-            style={{ top: timerPosition.top, left: timerPosition.left }}
-            draggable
-            onDragStart={(e) => handleDragStart(e, 'timer')}
-            onDrop={(e) => handleDrop(e, 'timer')}
-            onDragOver={handleDragOver}
-          >
+          <div className="timers-container">
             <PomodoroTimer />
           </div>
         )}
 
         {isNotesVisible && (
-          <div
-            className="notes-container"
-            style={{ top: notesPosition.top, left: notesPosition.left }}
-            draggable
-            onDragStart={(e) => handleDragStart(e, 'notes')}  // Pass 'notes' as the type
-            onDrop={(e) => handleDrop(e, 'notes')}            // Handle drop specifically for notes
-            onDragOver={handleDragOver}
-          >
+          <div className="notes-container">
             <Notes />
           </div>
         )}
+
+        
 
         <div className="music-container">
           <Music/>
@@ -330,6 +285,8 @@ const handleDragOver = (e) => {
         <div className="files-container">
         
       </div>  
+
+      </div>
 
       </div>
     </div>

@@ -4,7 +4,6 @@ import { useState } from 'react';
 
 export default function FileUpload() {
   const [file, setFile] = useState(null);
-  const [previewUrl, setPreviewUrl] = useState(null);
   const [statusMessage, setStatusMessage] = useState('');
   const [uploadedFile, setUploadedFile] = useState(null);
 
@@ -64,12 +63,6 @@ export default function FileUpload() {
           onChange={handleFileChange}
           accept="image/*,application/pdf,.txt,.docx"
         />
-        {previewUrl && (
-          <div>
-            <h2>File Preview:</h2>
-            <img src={previewUrl} alt="Preview" width={200} height={200} />
-          </div>
-        )}
         <button type="submit">Upload</button>
       </form>
       {statusMessage && <p>{statusMessage}</p>}

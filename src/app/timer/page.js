@@ -11,7 +11,10 @@ function PomodoroTimer() {
     const [isTaskEntered, setIsTaskEntered] = useState(false);
     const [isEditingTask, setIsEditingTask] = useState(false);
     const [showCustomTimePopup, setShowCustomTimePopup] = useState(false); // Popup visibility
+    const [alarmPlaying, setAlarmPlaying] = useState(false); // State to track alarm status
 
+    // Sound for alarm
+    const alarmSound = new Audio("/alarm.mp3");
 
     useEffect(() => {
         let timer;
@@ -22,12 +25,12 @@ function PomodoroTimer() {
             }, 1000);
         } else if (time === 0) {
             setIsRunning(false);
+            alarmSound.play(); // Play sound when timer ends
+            setAlarmPlaying(true); // Update alarm state
         }
 
         return () => clearInterval(timer);
     }, [isRunning, time]);
-
-    
 
     const formatTime = (seconds) => {
         const minutes = Math.floor(seconds / 60);
@@ -47,6 +50,11 @@ function PomodoroTimer() {
         setIsTaskEntered(false);
         setIsEditingTask(false);
         setShowCustomTimePopup(false); // Hide popup on reset
+        if (alarmPlaying) {
+            alarmSound.pause(); // Stop alarm if playing
+            alarmSound.currentTime = 0; // Reset alarm sound position
+            setAlarmPlaying(false); // Update alarm state
+        }
     };
 
     const changeTimerMode = (mode) => {
@@ -88,10 +96,15 @@ function PomodoroTimer() {
         setIsEditingTask(false);
     };
 
-
+    const stopAlarm = () => {
+        alarmSound.pause(); // Stop alarm
+        alarmSound.currentTime = 0; // Reset alarm sound position
+        setAlarmPlaying(false); // Update alarm state
+    };
 
     return (
         <div className="timer-container">
+            <h1>Timer</h1>
             <div className="timer-selection">
                 <button
                     onClick={() => changeTimerMode("pomodoro")}
@@ -186,6 +199,12 @@ function PomodoroTimer() {
                 )}
             </div>
 
+            {alarmPlaying && (
+                    <div className="alarm-controls">
+                        <button onClick={stopAlarm}>Stop Alarm</button>
+                    </div>
+                )}
+
             {showCustomTimePopup && (
                 <div className="custom-time-popup">
                     <form onSubmit={handleCustomTimeSubmit}>
@@ -202,9 +221,7 @@ function PomodoroTimer() {
                 </div>
             )}
         </div>
-
     );
 }
-
 
 export default PomodoroTimer;

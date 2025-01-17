@@ -148,6 +148,8 @@ const Notes = () => {
         
       </div>
 
+      <button className="add-note" onClick={() => setIsFormVisible(true)}>+ Add Note</button>
+
       <div style={{ display: "flex", flexWrap: "wrap", gap: "10px", margin: "10px 0" }}>
         {filteredNotes.map((note) => (
           <div key={note._id} className="display-note">

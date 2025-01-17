@@ -1,56 +1,74 @@
 .timer-container {
-    position: absolute;
-    display: flex;
-    justify-content: center;  /* Centers horizontally */
-    align-items: center;      /* Centers vertically */
-    flex-direction: column;
     padding: 10px;
-    background-color: rgba(114, 209, 215, 0.45);
+    margin: 10px;
+    width:350px;
+    background: linear-gradient(to top, #72D1D7 20%, #3C6E71);
     font-family: var(--font-raleway), Arial, sans-serif;
     border-radius: 10px;
-    width:450px;
-    height:350px;
-    gap:20px;
-    box-shadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+    max-width: 500px;
+    min-width: 200px;
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    max-height: 95%;  
+    box-sizing: border-box;
 }
 
+.timer-container h1{
+    color: #f4f4f6;
+    padding:5px 5px; 
+}
 
 .timer-selection{
     display: flex;
-    gap:40px;
+    gap: 10px;
+    justify-content: center;
+    margin: 10px 0px;
 }
 
 .timer-selection button{
-    border:none;
-    background: none;
     font-family: var(--font-raleway), Arial, sans-serif;
-    font-weight: bold;
+    padding:5px 10px;
+    border-radius: 10px;
+    border:none;
+    background-color: rgba(60, 110, 113, 0.45);
     color:#f4f4f9;
     cursor: pointer;
 }
 
 .timer-selection button:hover{
-    color:#51626a85;
+    color:#d2dee385;
 }
 
 .timer-selection button.active {
-    color: #3C6E71;
+    font-weight: bold;
     cursor: none;
+    pointer-events: none;
+    background-color: #3C6E71; 
 }
 
 .timer-selection button:disabled {
     cursor: default;
 }
 
+.timer-container h5{
+    text-align: center;
+    margin:10px 0;
+}
+
 .timer-container h3{
     font-size: 80px;
     color: #3C6E71;
     font-family: var(--font-raleway), Arial, sans-serif;
+    text-align: center;
+    margin-bottom:10px;
 }
 
 .timer-toggle{
     display: flex;
     gap:20px;
+    justify-content: center;
+    
 }
 
 .timer-toggle button{
@@ -60,6 +78,8 @@
     border-radius: 10px;
     font-weight: bold;
     font-family: var(--font-raleway), Arial, sans-serif;
+    cursor: pointer;
+    margin:10px 0;
 }
 
 .timer-toggle button:hover{
@@ -67,11 +87,22 @@
     color: #f4f4f9;
 }
 
+.task-input p{
+    justify-self: center;
+    text-align: center;
+    display: flex;
+    margin:15px 0;
+}
+
 .task-input input{
     font-family: var(--font-raleway), Arial, sans-serif;
     text-align: center;
     border: none;
     background: none;
+    justify-self: center;
+    text-align: center;
+    display: flex;
+    margin:15px 0;
 }
 
 .task-input input:focus{

@@ -123,6 +123,7 @@
     display: flex;
     position: relative;
     height: 88vh;
+
 }
 
 .pick-bar {
@@ -165,23 +166,16 @@
 
 .main-space {
   display: flex;
-  justify-content: center; /* Centers horizontally */
-  align-items: center;    /* Centers vertically */
-  height: 80%;
-  width:100%;
-  flex-direction: column;
+  width:95%;
   position: relative;
+  max-width: 95%;
+  overflow: auto;
+  box-sizing: border-box;
 }
 
 .main-space img{
   width:10vw;
   height: 10vw;
-}
-
-.calendar-container,
-.timer-container {
-  position: absolute;
-  cursor: move;  /* Indicate the element is draggable */
 }
 
 .change-icon{
