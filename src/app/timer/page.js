@@ -12,9 +12,22 @@ function PomodoroTimer() {
     const [isEditingTask, setIsEditingTask] = useState(false);
     const [showCustomTimePopup, setShowCustomTimePopup] = useState(false); // Popup visibility
     const [alarmPlaying, setAlarmPlaying] = useState(false); // State to track alarm status
+    const [alarmSound, setAlarmSound] = useState(null); // State to store alarm audio instance
 
-    // Sound for alarm
-    const alarmSound = new Audio("/alarm.mp3");
+    // Initialize alarm sound on client
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            const audio = new Audio("/alarm.mp3");
+    
+            // Handle potential errors when loading the audio
+            audio.onerror = () => {
+                console.error("Failed to load audio file.");
+            };
+    
+            setAlarmSound(audio);
+        }
+    }, []);
+    
 
     useEffect(() => {
         let timer;
@@ -25,12 +38,14 @@ function PomodoroTimer() {
             }, 1000);
         } else if (time === 0) {
             setIsRunning(false);
-            alarmSound.play(); // Play sound when timer ends
-            setAlarmPlaying(true); // Update alarm state
+            if (alarmSound) {
+                alarmSound.play(); // Play sound when timer ends
+                setAlarmPlaying(true); // Update alarm state
+            }
         }
 
         return () => clearInterval(timer);
-    }, [isRunning, time]);
+    }, [isRunning, time, alarmSound]);
 
     const formatTime = (seconds) => {
         const minutes = Math.floor(seconds / 60);
@@ -50,7 +65,7 @@ function PomodoroTimer() {
         setIsTaskEntered(false);
         setIsEditingTask(false);
         setShowCustomTimePopup(false); // Hide popup on reset
-        if (alarmPlaying) {
+        if (alarmPlaying && alarmSound) {
             alarmSound.pause(); // Stop alarm if playing
             alarmSound.currentTime = 0; // Reset alarm sound position
             setAlarmPlaying(false); // Update alarm state
@@ -97,9 +112,11 @@ function PomodoroTimer() {
     };
 
     const stopAlarm = () => {
-        alarmSound.pause(); // Stop alarm
-        alarmSound.currentTime = 0; // Reset alarm sound position
-        setAlarmPlaying(false); // Update alarm state
+        if (alarmSound) {
+            alarmSound.pause(); // Stop alarm
+            alarmSound.currentTime = 0; // Reset alarm sound position
+            setAlarmPlaying(false); // Update alarm state
+        }
     };
 
     return (
@@ -200,10 +217,10 @@ function PomodoroTimer() {
             </div>
 
             {alarmPlaying && (
-                    <div className="alarm-controls">
-                        <button onClick={stopAlarm}>Stop Alarm</button>
-                    </div>
-                )}
+                <div className="alarm-controls">
+                    <button onClick={stopAlarm}>Stop Alarm</button>
+                </div>
+            )}
 
             {showCustomTimePopup && (
                 <div className="custom-time-popup">
