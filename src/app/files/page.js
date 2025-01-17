@@ -12,7 +12,6 @@ export default function FileUpload() {
     const selectedFile = e.target.files[0];
     if (selectedFile) {
       setFile(selectedFile);
-      setPreviewUrl(URL.createObjectURL(selectedFile));
     }
   };
 
@@ -36,21 +35,13 @@ export default function FileUpload() {
       const result = await res.json();
       if (res.ok) {
         setStatusMessage('File uploaded successfully!');
-        setUploadedFile(result.fileUrl || result.fileName); // Store the uploaded file's URL or name
+        setUploadedFile(result.fileUrl || result.fileName); // Assume the server returns a URL
       } else {
         setStatusMessage(result.error || 'Upload failed.');
       }
     } catch (error) {
       console.error('Error uploading file:', error);
       setStatusMessage('Error uploading file.');
-    }
-  };
-
-  // Handle file view (open file or show preview)
-  const handleFileView = () => {
-    if (uploadedFile) {
-      // Assuming uploadedFile contains the URL of the uploaded file
-      window.open(uploadedFile, '_blank');
     }
   };
 
@@ -67,19 +58,39 @@ export default function FileUpload() {
       </form>
       {statusMessage && <p>{statusMessage}</p>}
 
-      {/* Show uploaded file icon */}
+      {/* Show uploaded file preview */}
       {uploadedFile && (
-        <div>
-          <h2>Uploaded File:</h2>
-          <div
-            style={{ cursor: 'pointer', color: 'blue' }}
-            onClick={handleFileView}
-          >
-            <i className="fas fa-file-alt"></i> {/* Use any icon library */}
-            <span>{uploadedFile}</span>
-          </div>
+  <div>
+    <h2>Uploaded File:</h2>
+    <div
+      style={{ cursor: 'pointer', color: 'blue', display: 'inline-flex', alignItems: 'center' }}
+      onClick={() => window.open(uploadedFile, '_blank')}
+    >
+      <i className="fas fa-file-alt" style={{ marginRight: '8px' }}></i> {/* Use any icon library */}
+      <span>{uploadedFile}</span>
+    </div>
+
+    {/* File preview */}
+    <div style={{ marginTop: '20px' }}>
+      {uploadedFile.endsWith('.jpg') || uploadedFile.endsWith('.png') || uploadedFile.endsWith('.jpeg') ? (
+        <img src={uploadedFile} alt="Uploaded" style={{ maxWidth: '100%', maxHeight: '400px' }} />
+      ) : uploadedFile.endsWith('.pdf') ? ( // Add support for PDF files
+        <div style={{ marginTop: '20px' }}>
+          <iframe
+            src={uploadedFile}
+            title="PDF Preview"
+            style={{ width: '100%', height: '500px', border: 'none' }}
+          ></iframe>
         </div>
+      ) : uploadedFile.endsWith('.txt') ? (
+        <iframe src={uploadedFile} title="File Preview" style={{ width: '100%', height: '400px' }}></iframe>
+      ) : (
+        <p>Preview not available. Click the link above to view the file.</p>
       )}
+    </div>
+  </div>
+)}
+
     </div>
   );
 }

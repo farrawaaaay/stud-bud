@@ -234,7 +234,7 @@ export default function Settings() {
             </li>
           </ul>
         </div>
-      <div className="main-space">
+      <div className="main-space-settings">
       <span className="setting-username">{user.name}</span>
         <div className="profile">
           <Image

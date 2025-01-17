@@ -221,7 +221,7 @@ export default function Settings() {
           </ul>
         </div>
 
-        <div className="main-space">
+        <div className="main-space-settings">
         <form onSubmit={handleChangeEmail} className="security-form">
             <h2>Change Email</h2>
             {error && <p className="error">{error}</p>}

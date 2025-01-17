@@ -28,7 +28,7 @@ export const POST = async (req) => {
       cloudinary.v2.uploader.upload_stream({
         folder: "Studbud/Files", // Files will be uploaded to the "user_uploads" folder
         public_id: file.name.replaceAll(" ", "_"),
-        resource_type: "auto", // Sanitize file name
+        resource_type: "raw", // Sanitize file name
       }, (error, result) => {
         if (error) {
           console.error("Error uploading to Cloudinary", error);
