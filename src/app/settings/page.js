@@ -71,7 +71,7 @@ export default function Settings() {
           if (!error && result && result.event === "success") {
             const imageUrl = result.info.secure_url;
   
-            const updatedUser = { ...user, profilePic: imageUrl };
+            const updatedUser = { ...user, profilePicture: imageUrl };
             setUser(updatedUser);
   
             await fetch('/api/update-profile', {
@@ -79,7 +79,7 @@ export default function Settings() {
               headers: {
                 'Content-Type': 'application/json',
               },
-              body: JSON.stringify({ email: user.email, profilePic: imageUrl }), // Use email instead of userId
+              body: JSON.stringify({ email: user.email, profilePicture: imageUrl }), // Use email instead of userId
             });
   
             localStorage.setItem('user', JSON.stringify(updatedUser));

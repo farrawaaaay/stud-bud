@@ -49,8 +49,8 @@ body {
 .signup-button:hover{
   background-color: #294a4b;
   border: 0;
-  margin:10px;
   color: #f4f4f9;
+
 }
 
 .signup-button, .login-button {
@@ -79,6 +79,12 @@ body {
   font-weight: 500;
   border-radius: 5px;
 } 
+
+.menu-content a.current-page{
+  color:#3C6E71;
+  pointer-events: none;
+  font-weight: bold;
+}
 
 .main {
   position: relative;
@@ -353,6 +359,20 @@ body {
 .input-group {
   position: relative;
   margin-bottom: 1.5rem;
+}
+
+.scroll-up{
+  font-weight: bold;
+  position:fixed;
+  z-index: 10;
+  padding: 15px 20px;
+  border:3px solid #3C6E71;
+  border-radius: 10px;
+  box-shadow: 1px 1px 5px #333;
+  background-color: #f4f4f9;
+  color:#3C6E71;
+  bottom: 20px;
+  right: 20px;
 }
 
 

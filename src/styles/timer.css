@@ -4,22 +4,20 @@
     justify-content: center;  /* Centers horizontally */
     align-items: center;      /* Centers vertically */
     flex-direction: column;
-    margin: 5%;
-    padding: 5%;
+    padding: 10px;
     background-color: rgba(114, 209, 215, 0.45);
     font-family: var(--font-raleway), Arial, sans-serif;
-    border-radius: 25px;
+    border-radius: 10px;
     width:450px;
-    height:25vw;
+    height:350px;
     gap:20px;
     box-shadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-    
 }
 
 
 .timer-selection{
     display: flex;
-    gap:50px;
+    gap:40px;
 }
 
 .timer-selection button{

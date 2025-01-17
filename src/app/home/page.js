@@ -1,11 +1,37 @@
 "use client"; // Marks the file as a Client Component
 
-import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react"; 
+import { useRouter} from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function Home() {
+  const [isVisible, setIsVisible] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    const toggleVisibility = () => {
+      if (window.scrollY > 200) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+    };
+
+    window.addEventListener("scroll", toggleVisibility);
+
+    return () => {
+      window.removeEventListener("scroll", toggleVisibility);
+    };
+  }, []);
+
+  // Scroll to top function
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
 
   return (
     <div className="bg-gray-100">
@@ -19,7 +45,7 @@ export default function Home() {
           height={100}
         />
         <div className="menu-content">
-          <Link href="#">Home</Link>
+          <Link href="#" className="current-page">Home</Link>
           <Link href="/about-us">About</Link>
           <Link href="/team">Team</Link>
           <Link href="/contact-us">Contact Us</Link>
@@ -42,6 +68,15 @@ export default function Home() {
 
       {/* Main Section */}
       <div className="main">
+      {isVisible && (
+        <div
+          className="scroll-up"
+          onClick={scrollToTop}
+          style={{ cursor: "pointer" }}
+        >
+          ^
+        </div>
+        )} 
         <div className="section-0">
           
         <div className="welcome">

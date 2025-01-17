@@ -1,12 +1,39 @@
 "use client"; // Marks the file as a Client Component
 
+import { useState, useEffect } from "react"; 
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import "../../styles/about-us.css";
 
 export default function Home() {
-  const router = useRouter();
+  const [isVisible, setIsVisible] = useState(false);
+    const router = useRouter();
+  
+    useEffect(() => {
+      const toggleVisibility = () => {
+        if (window.scrollY > 200) {
+          setIsVisible(true);
+        } else {
+          setIsVisible(false);
+        }
+      };
+  
+      window.addEventListener("scroll", toggleVisibility);
+  
+      return () => {
+        window.removeEventListener("scroll", toggleVisibility);
+      };
+    }, []);
+  
+    // Scroll to top function
+    const scrollToTop = () => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    };
+  
 
   return (
     <div className="bg-gray-100">
@@ -21,16 +48,37 @@ export default function Home() {
             />
             <div className="menu-content">
             <Link href="/home">Home</Link>
-            <Link href="/about-us">About</Link>
+            <Link href="/about-us" className="current-page">About</Link>
             <Link href="/team">Team</Link>
             <Link href="/contact-us">Contact Us</Link>
             </div>
-            <h3 className="hide dots">.............................</h3>
-
+            <div className="sign-buttons">
+          <button
+            onClick={() => router.push("/login")}
+            className="login-button w-full p-2 mt-4 bg-gray-200 text-gray-800 rounded hover:bg-gray-300"
+          >
+            Login
+          </button>
+          <button
+            onClick={() => router.push("/signup")}
+            className="signup-button w-full p-2 mt-4 bg-gray-200 text-gray-800 rounded hover:bg-gray-300"
+          >
+            Register
+          </button>
+        </div>
 
         </div>
 
         <div className="about-main-section">
+        {isVisible && (
+        <div
+          className="scroll-up"
+          onClick={scrollToTop}
+          style={{ cursor: "pointer" }}
+        >
+          ^
+        </div>
+        )}
             <div className="about-section">
                 <div className="picture-section">
                     <Image

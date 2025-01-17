@@ -18,11 +18,8 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [isClient, setIsClient] = useState(false);
 
-  useEffect(() => {
-    setIsClient(true); 
-  }, []);
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -72,22 +69,23 @@ export default function LoginPage() {
         return;
       }
   
-      // Store user data in localStorage
+      // Store token and user data in localStorage
+      localStorage.setItem('token', data.token); // Store token
       localStorage.setItem('user', JSON.stringify({
         _id: data.student._id,
         name: data.student.name,
-        profilePicture: data.student.profilePicture, 
-        email:data.student.email,
+        profilePicture: data.student.profilePicture,
+        email: data.student.email,
       }));
   
       router.push('/workspace');
     } catch (err) {
+      console.error(err); // Log error for debugging
       setError(err.message);
     } finally {
       setLoading(false);
     }
   };
-  
 
   return (
     <div className="container">
@@ -142,7 +140,7 @@ export default function LoginPage() {
         <Link href="/forgot-password">Forgot Password?</Link>
         
         <button className="submit-button" type="submit" disabled={loading}>
-          {isClient && loading ? <ClipLoader size={24} color="#ffffff" /> : 'SIGN IN'}
+          {loading ? <ClipLoader size={24} color="#ffffff" /> : 'SIGN IN'}
         </button>
       </form>
     </div>

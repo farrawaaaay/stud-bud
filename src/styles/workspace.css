@@ -139,6 +139,7 @@
 
 .pick-bar.open{
   width:180px ;
+  z-index: 10;
 }
 
 .pick-bar ul{
@@ -175,6 +176,12 @@
 .main-space img{
   width:10vw;
   height: 10vw;
+}
+
+.calendar-container,
+.timer-container {
+  position: absolute;
+  cursor: move;  /* Indicate the element is draggable */
 }
 
 .change-icon{
@@ -376,4 +383,13 @@ border-radius: 10px;
 
 .security-form button:active{
   background-color: #203233;
+}
+
+.music-container{
+  z-index: 10;
+  position: fixed;
+  display: block;
+  right:0;
+  margin: 15px 20px;
+  bottom:0;
 }

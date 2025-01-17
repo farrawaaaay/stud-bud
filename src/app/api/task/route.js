@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import connectDB from "@/lib/mongodb";
-import Note from "@/models/Note";
+import Task from "@/models/Task";
 
 export async function POST(request) {
   try {
@@ -20,7 +20,7 @@ export async function POST(request) {
     }
 
     // Parse the request body
-    const { title, content, category } = await request.json();
+    const { title, content, category, deadline, status } = await request.json();
 
     // Validate required fields
     if (!title || !content || !category) {
@@ -30,36 +30,44 @@ export async function POST(request) {
       );
     }
 
+    // Validate status if provided
+    const validStatuses = ["to-do", "in-progress", "completed"];
+    if (status && !validStatuses.includes(status)) {
+      return NextResponse.json(
+        { error: `Invalid status. Allowed values: ${validStatuses.join(", ")}` },
+        { status: 400 }
+      );
+    }
+
     // Connect to the database
     await connectDB();
 
-    // Create a new note
-    const note = new Note({
+    // Create a new task
+    const task = new Task({
       title,
       content,
       category,
       studentId, // Add the studentId from the token
+      deadline: deadline ? new Date(deadline) : null, // Parse deadline if provided
+      status: status || "to-do", // Default to "to-do"
     });
 
-    // Save the note to the database
-    const savedNote = await note.save();
+    // Save the task to the database
+    const savedTask = await task.save();
 
-    return NextResponse.json(savedNote, { status: 201 });
+    return NextResponse.json(savedTask, { status: 201 });
   } catch (error) {
-    console.error("Error creating note:", error);
+    console.error("Error creating task:", error);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }
 
-
-// Fetch all notes for a student
-// Fetch all notes for a student
 export async function GET(request) {
     try {
       // Step 1: Validate token
-      const token = request.headers.get('Authorization')?.split(' ')[1];
+      const token = request.headers.get("Authorization")?.split(" ")[1];
       if (!token) {
-        return NextResponse.json({ error: 'Unauthorized access' }, { status: 401 });
+        return NextResponse.json({ error: "Unauthorized access" }, { status: 401 });
       }
   
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -68,15 +76,14 @@ export async function GET(request) {
       // Step 2: Connect to the database
       await connectDB();
   
-      // Step 3: Retrieve all notes belonging to the authenticated student
-      const notes = await Note.find({ studentId }); // Match the field name to `studentId`
+      // Step 3: Retrieve all tasks belonging to the authenticated student
+      const tasks = await Task.find({ studentId }).sort({ deadline: 1 }); // Sort by deadline
   
-      // Step 4: Return the notes
-      return NextResponse.json(notes, { status: 200 });
-  
+      // Step 4: Return the tasks
+      return NextResponse.json(tasks, { status: 200 });
     } catch (error) {
-      console.error('Error fetching notes:', error);
-      return NextResponse.json({ error: 'Server error' }, { status: 500 });
+      console.error("Error fetching tasks:", error);
+      return NextResponse.json({ error: "Server error" }, { status: 500 });
     }
   }
   

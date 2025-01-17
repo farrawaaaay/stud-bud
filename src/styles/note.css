@@ -1,0 +1,187 @@
+.note-container {
+    padding: 10px;
+    margin: 10px;
+    width:325px;
+    border-radius: 10px;
+    background: linear-gradient(to top, #72D1D7 20%, #3C6E71);
+    resize: both;
+    overflow: auto;
+    max-width: 500px;
+    min-width: 200px;
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+
+    max-height: 95%;  
+    box-sizing: border-box;
+}
+
+.filter-container{
+    margin: 10px 10px;
+}
+
+.filter-container input{
+    font-family: var(--font-raleway), Arial, sans-serif;
+}
+
+.filter-container select{
+    font-family: var(--font-raleway), Arial, sans-serif;
+    border-radius: 4px;
+}
+
+.display-note {
+    margin: 0 5px;
+    padding: 10px;
+    width: 100%;
+    background-color: #f4f4f6;
+    border-radius: 5px;
+    border: 3px solid #000;
+    font-size: small;
+    word-wrap: break-word; /* Allows breaking of long words */
+    overflow: hidden; /* Hide content that overflows */
+    text-overflow: ellipsis;
+}
+
+.line-boundary {
+    width: 95%;
+    height: 3px;
+    background-color: #000;
+    margin: 5px auto;  /* Centers the element horizontally */
+}
+
+.note-container h1{
+  color: #f4f4f6;
+  padding:5px 5px;
+}
+
+.add-note {
+    display: flex;
+    align-self: center;
+    padding: 10px 10px;
+    border: none;
+    background-color: #f4f4f6;
+    color: #3C6E71;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100px;
+    margin:10px 0px;
+    font-family: var(--font-raleway), Arial, sans-serif;
+}
+
+.note-content{
+    margin-bottom: 15px;
+    
+}
+
+.note-details{
+    font-style: italic;
+    font-size: x-small;
+}
+
+.show-more{
+    border:none;
+    font-family: var(--font-raleway), Arial, sans-serif;
+    color:#2d5254;
+    cursor: pointer;
+    font-weight: bold;;
+}
+
+
+.note-form input, .note-form textarea{
+    font-family: var(--font-raleway), Arial, sans-serif;
+    width: 95%;
+    padding:10px 10px;
+    border-radius: 5px;
+    border: none;
+}
+
+
+
+
+/* Modal Overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure it's on top */
+  }
+  
+  /* Modal Content */
+  .modal-content {
+    background-color: #b4e6e9;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 500px;
+    width: 100%;
+    box-sizing: border-box;
+    position: relative;
+  }
+  
+  /* Close the modal if clicking outside the content */
+  .modal-overlay .modal-content {
+    cursor: auto;
+  }
+  
+  .modal-content input,
+  .modal-content textarea,
+  .modal-content button {
+    width: 100%;
+    margin-bottom: 10px;
+    
+  }
+
+  .modal-content input:focus,
+  .modal-content textarea:focus{
+    outline: none;
+    border:2px solid #3C6E71;
+    box-sizing: border-box; 
+  }
+  
+  .modal-overlay .note-form button {
+    width: auto;
+    margin-top: 10px;
+  }
+
+  .note-buttons {
+    display: flex;
+    justify-content: center;  
+    align-items: center;      
+    gap: 10px;                
+  }
+
+  .create-note {
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 3px solid #3C6E71;
+    font-family: var(--font-raleway), Arial, sans-serif;
+    color: #3C6E71;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.create-note:hover{
+    background-color: #2d5254;
+    color:#f4f4f6;
+}
+  /* Modal Cancel Button */
+.cancel-note {
+    padding: 5px 10px;
+    color: #f44336;
+    border: 3px solid #f44336;
+    font-family: var(--font-raleway), Arial, sans-serif;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .cancel-note:hover {
+    background-color: #d32f2f; /* Darker red on hover */
+    color:#f4f4f6;
+  }
+  

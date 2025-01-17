@@ -1,0 +1,12 @@
+.music-container{
+    height: fit-content;
+    width: fit-content ;
+}
+
+.iframe-container{
+    height: fit-content;
+}
+
+.iframe{
+    height: auto;
+}

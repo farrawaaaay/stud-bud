@@ -1,0 +1,183 @@
+.task-container{
+    padding: 10px;
+    margin: 10px;
+    width:325px;
+    border-radius: 10px;
+    background: linear-gradient(to top, #72D1D7 20%, #3C6E71);
+    resize: both;
+    overflow: auto;
+    max-width: 500px;
+    min-width: 200px;
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+
+    max-height: 95%;  
+    box-sizing: border-box;
+}
+
+
+.add-task    {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-self: center;
+    padding: 10px 10px;
+    border: none;
+    background-color: #f4f4f6;
+    color: #3C6E71;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100px;
+    margin:10px 0px;
+    font-family: var(--font-raleway), Arial, sans-serif;
+}
+
+.task-container h1{
+    color: #f4f4f6;
+    padding:5px 5px;
+}
+
+.process-view{
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.process-view button{
+    font-family: var(--font-raleway), Arial, sans-serif;
+    padding:5px 10px;
+    border-radius: 10px;
+    border:none;
+    background-color: rgba(60, 110, 113, 0.45);
+    color:#f4f4f6;
+}
+
+.process-view button.active {
+    background-color: #3C6E71; /* Green background for active button */
+    font-weight: bold;
+  }
+
+.task-list{
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+    margin:10px 10px;
+}
+
+.task-item{
+    border-radius: 5px;
+    background-color: #f4f4f6;
+    font-size: small;
+    border: 3px solid #000;
+    padding:10px;   
+}
+
+
+/* Modal Overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  /* Modal Content */
+  .modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+    max-width: 90%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+  }
+  
+  /* Form Inputs */
+  .modal-content input,
+  .modal-content textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  /* Buttons */
+  .modal-content .note-buttons,
+  .modal-content .task-buttons {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .create-note,
+  .create-task {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .create-note:hover,
+  .create-task:hover {
+    background-color: #0056b3;
+  }
+  
+  .cancel-note,
+  .cancel-task {
+    background-color: #f0f0f0;
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .cancel-note:hover,
+  .cancel-task:hover {
+    background-color: #ddd;
+  }
+  
+  /* Prevent background click from closing modal */
+  .modal-content form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  /* Styling for task modal */
+  .task-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .task-form input,
+  .task-form textarea {
+    font-size: 16px;
+  }
+  
+  /* Close Modal Button */
+  .close-modal {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  
+  .close-modal:hover {
+    color: red;
+  }
+  
