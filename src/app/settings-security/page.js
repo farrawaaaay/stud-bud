@@ -165,7 +165,6 @@ export default function Settings() {
               <div className="options">
                 <ul>
                   {[{ icon: "/home.svg", label: "Workspace" },
-                    { icon: "/help.svg", label: "Help" },
                     { icon: "/logout.svg", label: "Logout" }].map((item, index) => (
                       <li key={index} onClick={() => handleNavigation(item.label)}>
                         <Image

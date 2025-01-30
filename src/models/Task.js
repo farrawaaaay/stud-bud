@@ -31,6 +31,7 @@ const TaskSchema = new mongoose.Schema(
       default: "to-do", // Default value
       required: true,
     },
+    
   },
   { timestamps: true } // Automatically adds createdAt and updatedAt fields
 );

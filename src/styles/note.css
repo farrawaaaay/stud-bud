@@ -54,18 +54,32 @@
   padding:5px 5px;
 }
 
-.add-note {
-    display: flex;
-    align-self: center;
-    padding: 10px 10px;
-    border: none;
-    background-color: #f4f4f6;
-    color: #3C6E71;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 100px;
-    margin:10px 0px;
-    font-family: var(--font-raleway), Arial, sans-serif;
+.note-header{
+  display: flex;
+  justify-content: space-between;
+  padding:5px 10px;
+}
+
+.add-note  {
+  display: flex;
+  justify-content: center;
+  font-weight: bold;
+  text-align: center;
+  align-self: center;
+  padding: 10px 2px;
+  border: none;
+  background-color: #f4f4f6;
+  color: #3C6E71;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 70px;
+  margin:10px 0px;
+  font-family: var(--font-raleway), Arial, sans-serif;
+}
+
+.add-note:hover{
+background-color: #3C6E71;
+color: #f4f4f6;
 }
 
 .note-content{
@@ -99,7 +113,7 @@
 
 
 /* Modal Overlay */
-.modal-overlay {
+.note-modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -113,7 +127,7 @@
   }
   
   /* Modal Content */
-  .modal-content {
+  .note-modal-content {
     background-color: #b4e6e9;
     padding: 20px;
     border-radius: 8px;
@@ -124,29 +138,40 @@
   }
   
   /* Close the modal if clicking outside the content */
-  .modal-overlay .modal-content {
+  .note-modal-overlay .note-modal-content {
     cursor: auto;
   }
   
-  .modal-content input,
-  .modal-content textarea,
-  .modal-content button {
+  .note-modal-content input,
+  .note-modal-content textarea,
+  .note-modal-content button {
     width: 100%;
     margin-bottom: 10px;
     font-family: var(--font-raleway), Arial, sans-serif;
+    border-radius: 5px;
     
   }
 
-  .modal-content input:focus,
-  .modal-content textarea:focus{
+  .note-form textarea{
+    height: 300px;
+    resize:none;
+  }
+
+  .note-modal-content input:focus,
+  .note-modal-content textarea:focus{
     outline: none;
     border:2px solid #3C6E71;
     box-sizing: border-box; 
   }
   
-  .modal-overlay .note-form button {
+  .note-modal-overlay .note-form button {
     width: auto;
     margin-top: 10px;
+  }
+
+  .note-form-title{
+    font-size: 13px;
+    padding:5px 4px;
   }
 
   .note-buttons {
@@ -186,3 +211,22 @@
     color:#f4f4f6;
   }
   
+
+  .note-title-header{
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .note-title-header button{
+    border: none;
+    margin:0 3px;
+    cursor: pointer;
+  }
+
+  .note-title-header button:hover{
+    transform: scale(1.2);
+  }
+
+  .note-title-header h3{
+    margin-bottom:10px;
+  }

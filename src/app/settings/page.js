@@ -28,9 +28,6 @@ export default function Settings() {
       case 'Workspace':
         router.push('/workspace');
         break;
-      case 'Help':
-        router.push('/help');
-        break;
       case 'Logout':
         // Add your logout logic here, such as clearing tokens or redirecting
         router.push('/logout');
@@ -66,6 +63,8 @@ export default function Settings() {
           cloudName: cloudName,
           uploadPreset: uploadPreset,
           folder: "StudBud/profile-pictures",
+          clientAllowedFormats: ["jpg", "png"], // Allow only JPG and PNG
+          multiple: false,
         },
         async (error, result) => {
           if (!error && result && result.event === "success") {
@@ -179,7 +178,7 @@ export default function Settings() {
               <div className="options">
                 <ul>
                   {[{ icon: "/home.svg", label: "Workspace" },
-                    { icon: "/help.svg", label: "Help" },
+                    
                     { icon: "/logout.svg", label: "Logout" }].map((item, index) => (
                       <li key={index} onClick={() => handleNavigation(item.label)}>
                         <Image

@@ -7,8 +7,10 @@ import Music from "../spotify/page";
 import Tasks from "../task/page";
 import PomodoroTimer from "../timer/page";
 import StudbudCalendar from "../studbud-calendar/page";
+import Folders from "../file-upload/page";
 import Image from "next/image"; 
 
+import { TfiMoreAlt } from "react-icons/tfi";
 import "../../styles/workspace.css";
 import { useRouter } from 'next/navigation';
 
@@ -18,10 +20,13 @@ export default function Home() {
   const [isSideOpen, setSideOpen] = useState(false);
   const [quote, setQuote] = useState(null);
   const [user, setUser] = useState({ name: '', profilePic: '' });
-  const [isCalendarVisible, setCalendarVisible] = useState(false);
+  const [isCalendarVisible, setCalendarVisible] = useState(true);
   const [isTimerVisible, setTimerVisible] = useState(false);
   const [isNotesVisible, setNotesVisible] = useState(false);
   const [isTaskVisible, setTaskVisible] = useState(false);
+  const [isFolderOpen, setFolderOpen] = useState(false);
+  const [isWorkspaceSettingsOpen, setWorkspaceSettingsOpen] = useState(false);
+  const [workspace, setWorkspace] = useState({ title: '' });
 
   const router = useRouter();
 
@@ -29,14 +34,16 @@ export default function Home() {
     setProfileOpen(!isProfileOpen);
   };
 
-  
-
   const toggleSide = () => {
     setSideOpen(!isSideOpen);
   };
 
   const navigateToSettings = () => {
     router.push('/settings');
+  };
+
+  const navigateToCollab = () => {
+    router.push('/collaboration');
   };
 
   const toggleCalendar = () => {
@@ -55,6 +62,10 @@ export default function Home() {
     setTaskVisible(!isTaskVisible);
   }
 
+  const toggleWorkspaceSettings = () => {
+    setWorkspaceSettingsOpen(!isWorkspaceSettingsOpen);
+  }
+
   const logout = () => {
     // Remove user and token data from localStorage
     localStorage.removeItem('token');
@@ -67,7 +78,7 @@ export default function Home() {
     router.push('/login');
   };
   
-  
+ 
 
   useEffect(() => {
     const fetchQuote = async () => {
@@ -88,6 +99,43 @@ export default function Home() {
         console.error('Error fetching quote:', error);
       }
     };
+
+    const fetchWorkspace = async (userId) => {
+      if (!userId) {
+        console.error("User ID is missing.");
+        router.push("/login"); // Redirect to login if userId is not found
+        return;
+      }
+    
+      try {
+        console.log("Fetching workspace for userId:", userId);
+    
+        const response = await fetch(`/api/workspace?userId=${userId}`);
+    
+        if (response.ok) {
+          const data = await response.json();
+          setWorkspace(data); // Set workspace data from response
+          console.log("Workspace fetched successfully:", data);
+        } else {
+          const errorData = await response.json(); // Read error message from API
+          console.error("Error fetching workspace:", errorData.message || response.statusText);
+          
+          // Redirect to login if workspace is not found or an error occurred
+          if (response.status === 404) {
+            console.error("Workspace not found. Redirecting to login...");
+          } else {
+            console.error("Unexpected error occurred. Redirecting to login...");
+          }
+          router.push("/login");
+        }
+      } catch (error) {
+        console.error("Network or server error while fetching workspace:", error);
+        // Optional: Redirect or show a generic error message
+        router.push("/login");
+      }
+    };
+
+
 
     const validateToken = async (token) => {
       try {
@@ -126,6 +174,8 @@ export default function Home() {
             const user = JSON.parse(storedUser);
             setUser(user);
             fetchQuote();
+            const userId = user._id; // Get user ID here
+            fetchWorkspace(userId); 
           } catch (error) {
             console.error('Error parsing user data:', error);
             router.push('/login');
@@ -140,6 +190,14 @@ export default function Home() {
 }
 
   }, [router]);
+
+  const toggleFolder = () => {
+    setFolderOpen(!isFolderOpen);
+  };
+
+  
+  
+
 
   return (
     <div className="workspace-container">
@@ -173,7 +231,6 @@ export default function Home() {
               <div className="options">
                 <ul>
                   {[{ icon: "/settings.svg", label: "Settings", onClick: navigateToSettings },
-                    { icon: "/help.svg", label: "Help" },
                     { icon: "/logout.svg", label: "Logout", onClick: logout }].map((item, index) => (
                       <li key={index} onClick={item.onClick}>
                         <Image
@@ -195,9 +252,23 @@ export default function Home() {
         </div>
       </div>
 
+      <div className="workspace-title">
+        <h4 className="dots">...</h4>
+        <p>{workspace.title}</p>
+            <h3 onClick={toggleWorkspaceSettings}><TfiMoreAlt /></h3>
+      </div>
+
+      {isWorkspaceSettingsOpen && (  
+      <div className="workspace-settings-title">
+        <ul>
+          <li onClick={navigateToCollab}>My Workspaces</li>
+        </ul>
+      </div>
+      )}
+
       <div className="main-workspace">
         <div className={`pick-bar ${isSideOpen ? "open" : ""}`}>
-          <button className="toggleBtn" onClick={toggleSide}>
+          <button className="toggleBtn1" onClick={toggleSide}>
             {isSideOpen ? "◀" : "▶"}
           </button>
           <ul>
@@ -237,20 +308,23 @@ export default function Home() {
               />
               {isSideOpen && <span className="title">Notes</span>}
             </li>
-            <li>
+            <li onClick={toggleFolder}>
               <Image
                 src="/File-Organizer.svg"
-                alt="File Organizer Icon"
+                alt="Files Icon"
                 width={40}
                 height={40}
               />
-              {isSideOpen && <span className="title">Files</span>}
+              {isSideOpen && <span className="title">Notes</span>}
             </li>
+            
+
             
           </ul>
         </div>
 
         <div className="main-space">
+          
 
         {isCalendarVisible && (
           <div className="calendars-container">
@@ -276,15 +350,19 @@ export default function Home() {
           </div>
         )}
 
-        
-
         <div className="music-container">
           <Music/>
         </div>
 
-        <div className="files-container">
-        
-      </div>  
+        {isFolderOpen && (
+          <div className="folder-popup-overlay">
+            <div className="folder-popup" onClick={(e) => e.stopPropagation()}>
+              <button className="folder-close-btn" onClick={toggleFolder}>×</button>
+              <Folders />
+            </div>
+          </div>
+        )}
+
 
       </div>
 

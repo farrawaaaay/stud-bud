@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import Student from '@/models/Student';
+import Workspace from '@/models/Workspace';
 
 
 export async function POST(request) {
@@ -36,6 +37,14 @@ export async function POST(request) {
       profilePicture,
     });
 
+     // Create a default workspace for the new student
+     const defaultWorkspace = await Workspace.create({
+      title: `${name}'s Workspace`,
+      owner: student._id, // Associate the workspace with the student
+      members: [student._id], // Add the student as the only initial member
+      isDefault: true,
+    });
+
     return NextResponse.json(
       {
         message: 'Student registered successfully',
@@ -44,6 +53,13 @@ export async function POST(request) {
           name: student.name,
           email: student.email,
           profilePicture: student.profilePicture, // Include the profile picture in the response
+        },
+        workspace: {
+          id: defaultWorkspace._id,
+          title: defaultWorkspace.title,
+          owner: defaultWorkspace.owner,
+          members: defaultWorkspace.members,
+          isDefault: defaultWorkspace.isDefault,
         },
       },
       { status: 201 }

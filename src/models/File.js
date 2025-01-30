@@ -1,21 +1,32 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
-const FileSchema = new mongoose.Schema({
-  uploader: {
-    type: mongoose.Schema.Types.ObjectId, // Ensure mongoose is imported
-    ref: 'Student', // Assuming you're referencing the 'Student' collection
-    required: true,
+const fileSchema = new mongoose.Schema(
+  {
+    studentId: {
+      type: mongoose.Schema.Types.ObjectId,  // Assuming you have a 'Student' model
+      ref: "Student",                        // Reference to the Student model
+      required: true,
+    },
+    fileUrl: {
+      type: String,
+      required: true,
+    },
+    fileName: {
+      type: String,
+      required: true,
+    },
+    fileType: {
+      type: String,
+      required: true,
+    },
+    folderName: {
+      type: String,  // You can also use ObjectId if you reference a Folder model
+      required: true,
+    },
   },
-  fileUrl: {
-    type: String,
-    required: true,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 
-const File = mongoose.models.File || mongoose.model('File', FileSchema);
-
-export default File;
+export default mongoose.models.File || mongoose.model("File", fileSchema);

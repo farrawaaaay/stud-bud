@@ -18,8 +18,39 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [failedAttempts, setFailedAttempts] = useState(0);
+  const [isLocked, setIsLocked] = useState(false);
+  const [cooldown, setCooldown] = useState(0);
 
-  
+  const MAX_ATTEMPTS = 3;
+  const COOLDOWN_TIME = 30000; // 30 seconds in milliseconds
+
+  useEffect(() => {
+    const storedAttempts = localStorage.getItem('failedAttempts');
+    if (storedAttempts) {
+      setFailedAttempts(parseInt(storedAttempts, 10));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (failedAttempts >= MAX_ATTEMPTS) {
+      setIsLocked(true);
+      setCooldown(COOLDOWN_TIME);
+      const timer = setInterval(() => {
+        setCooldown((prev) => prev - 1000);
+      }, 1000);
+      const timeout = setTimeout(() => {
+        setIsLocked(false);
+        setFailedAttempts(0);
+        localStorage.removeItem('failedAttempts');
+        clearInterval(timer);
+      }, COOLDOWN_TIME);
+      return () => {
+        clearTimeout(timeout);
+        clearInterval(timer);
+      };
+    }
+  }, [failedAttempts]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -27,13 +58,26 @@ export default function LoginPage() {
       ...prev,
       [name]: value,
     }));
+
+    setFormErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: '',
+    }));
+  };
+
+  const handleKeyDown = (e) => {
+    const { name } = e.target;
+  
+    // Prevent space from being the first character
+    if (e.key === ' ' && formData[name]?.length === 0) {
+      e.preventDefault();
+    }
   };
 
   const validateForm = () => {
     const errors = {};
-    if (!formData.name) errors.name = 'Username is required';
-    if (!formData.password) errors.password = 'Password is required';
-    else if (formData.password.length < 8) errors.password = 'Password must be at least 8 characters';
+    if (!formData.name) errors.name = 'Input username';
+    if (!formData.password) errors.password = 'Input password';
     return errors;
   };
 
@@ -43,6 +87,8 @@ export default function LoginPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (isLocked) return;
+
     setError('');
     setFormErrors({});
     setLoading(true);
@@ -65,6 +111,11 @@ export default function LoginPage() {
   
       if (res.status !== 200) {
         setError(data.error || 'Login failed');
+        setFailedAttempts((prev) => {
+          const newAttempts = prev + 1;
+          localStorage.setItem('failedAttempts', newAttempts.toString());
+          return newAttempts;
+        });
         setLoading(false);
         return;
       }
@@ -78,6 +129,10 @@ export default function LoginPage() {
         email: data.student.email,
       }));
   
+      // Reset failed attempts on successful login
+      setFailedAttempts(0);
+      localStorage.removeItem('failedAttempts');
+  
       router.push('/workspace');
     } catch (err) {
       console.error(err); // Log error for debugging
@@ -87,8 +142,12 @@ export default function LoginPage() {
     }
   };
 
+  const forgotPassword = () => {
+    router.push('/forgot-password');
+  };
+
   return (
-    <div className="container">
+    <div className="log-in-container">
       <div className="left-panel">
         <Image
           src="/studbud-darkmode.svg"
@@ -106,6 +165,11 @@ export default function LoginPage() {
       <form className="right-form" onSubmit={handleSubmit}>
         <h2>Login</h2>
         {error && <p className="error-message">{error}</p>}
+        {isLocked && (
+          <p className="error-message">
+            Too many failed attempts. Please try again in {Math.ceil(cooldown / 1000)} seconds.
+          </p>
+        )}
         <div className={`input-container ${formErrors.name ? 'error' : ''}`}>
           <input
             name="name"
@@ -113,7 +177,9 @@ export default function LoginPage() {
             placeholder="Username"
             value={formData.name}
             onChange={handleChange}
-            autoComplete="off"  
+            autoComplete="off" 
+            onKeyDown={handleKeyDown} 
+            disabled={isLocked}
           />
           <FaUser className='Fa' />
         </div>
@@ -125,21 +191,23 @@ export default function LoginPage() {
             placeholder="Password"
             value={formData.password}
             onChange={handleChange}
-            autoComplete="off"  
+            autoComplete="off" 
+            onKeyDown={handleKeyDown} 
+            disabled={isLocked}
           />
           <button
             type="button"
             className="toggle-password"
             onClick={togglePasswordVisibility}
             aria-label={showPassword ? "Hide password" : "Show password"}
+            disabled={isLocked}
           >
             {showPassword ? <FaEyeSlash className='Fa'/> : <FaEye className='Fa'/>}
           </button>
         </div>
         {formErrors.password && <p className="error-message side-error">{formErrors.password}</p>}
-        <Link href="/forgot-password">Forgot Password?</Link>
         
-        <button className="submit-button" type="submit" disabled={loading}>
+        <button className="submit-button" type="submit" disabled={loading || isLocked}>
           {loading ? <ClipLoader size={24} color="#ffffff" /> : 'SIGN IN'}
         </button>
       </form>

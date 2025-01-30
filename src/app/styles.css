@@ -40,6 +40,10 @@ body {
   color: #f4f4f9;
 }
 
+.login-button:active {
+  background-color: #182b2c;
+}
+
 .signup-button{
   background-color: #3C6E71;
   color: #f4f4f9;
@@ -50,6 +54,11 @@ body {
   background-color: #294a4b;
   border: 0;
   color: #f4f4f9;
+
+}
+
+.signup-button:active{
+  background-color: #182b2c;
 
 }
 
@@ -158,6 +167,10 @@ body {
 
 .get-started:hover{
   background-color: #294a4b;
+}
+
+.get-started:active{
+  background-color: #182b2c;
 }
 
 

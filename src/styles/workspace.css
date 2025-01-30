@@ -2,9 +2,61 @@
     height: 100vh;
     width: 100vw;
     background-color: #EEEEEE;
+    overflow: hidden;
 }
 
- 
+.workspace-title{
+  background-color: #3C6E71;
+  text-align: center;
+  color: #f4f4f4;
+  font-weight: bold;
+  padding:10px 10px;
+  display: flex;
+  gap:10px;
+  justify-content: center;
+}
+
+.dots{
+  visibility: hidden;
+}
+
+.workspace-title h3{
+  margin-right: 20px;
+  cursor: pointer;
+}
+
+.workspace-title h3:active{
+  transform: scale(0.8);
+}
+
+.workspace-settings-title{
+  position: absolute;
+  z-index: 10;
+  background-color: #f4f4f4;
+  border-radius: 10px;
+  border: 3px solid #3C6E71;
+  left:53%;
+  box-shadow: 1px 1px 10px #0000009e;  
+}
+
+.workspace-settings-title ul{
+  padding:10px;
+}
+
+.workspace-settings-title ul li{
+  list-style: none;
+  padding:10px;
+  border-radius: 5px;
+  
+}
+
+.workspace-settings-title ul li:hover{
+  background-color: #3C6E71;
+  color: #f4f4f4;
+  cursor: pointer;
+}
+
+
   .up-logo {
     display: flex;
     justify-content: space-between;
@@ -27,6 +79,10 @@
   .profile-container {
     width: 250px;
     margin-right: 15px;
+    z-index: 10;
+    border-bottom-right-radius: 42px;
+    border-bottom-left-radius: 42px;
+    box-shadow: 1px 1px 10px #000;
 }
 
 
@@ -45,6 +101,7 @@
 
 .profile-container.open .profile-details {
     color: #f4f4f4;
+    box-shadow: 1px 1px 10px #0000008a;
 }
 
 .profile-container.open .profile-details {
@@ -88,7 +145,21 @@
     border-bottom-left-radius: 10px;
     justify-self: center;
     display: block;
-    z-index: 1;
+    box-shadow: 1px 5px 10px #000000b0;
+  }
+
+  .toggleBtn1 {
+    cursor: pointer;
+    padding: 5px 20px;
+    background-color: #3C6E71;
+    color: #ecf0f1;
+    border: none;
+    font-size: 10px;
+    position: relative;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    justify-self: center;
+    display: block;
   }
 
   .username{
@@ -123,6 +194,7 @@
     display: flex;
     position: relative;
     height: 88vh;
+    overflow: hidden;
 
 }
 
@@ -136,6 +208,8 @@
     padding-top: 2%;
     gap: 20px;
     transition: width 0.5s ease;
+    box-shadow: 1px 1px 10px #000;
+    
 }
 
 .pick-bar.open{
@@ -171,7 +245,10 @@
   max-width: 95%;
   overflow: auto;
   box-sizing: border-box;
+  max-height: 95%;
 }
+
+
 
 
 .main-space-settings {
@@ -397,3 +474,5 @@ border-radius: 10px;
   margin: 15px 20px;
   bottom:0;
 }
+
+

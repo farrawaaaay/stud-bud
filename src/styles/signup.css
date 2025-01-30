@@ -35,18 +35,36 @@
     text-decoration: underline;
   }
 
-  .left-form {
-    width: 50vw; /* Match the width of the left panel */
+  .little-link:active{
+    color: #294a4b;
+  }
+
+  .left-part{
+    height: 100%;
+    width:50vw;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Center vertically */
+    align-items: center; 
+  }
+
+ .agree-terms{
+  text-align: center;
+ }
+  
+
+  .left-form {
+    width: 40vw; /* Match the width of the left panel */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
     text-align: center;
-    padding: 10% 10%;
+    padding: 0 10%;
+    height:95%;
   }
 
   .left-form h2{
     font-size: 4vw;
-    margin-bottom: 10%;
+    margin-bottom: 5%;
   }
   
   .left-form input{
@@ -151,4 +169,97 @@
 
 .input-container.error .Fa{
   color: #eb3939;
+}
+
+.terms-link {
+  cursor: pointer;
+  color: #3C6E71;  /* Nice blue shade for link */
+  text-decoration: underline;
+  transition: color 0.3s ease-in-out;
+  padding-left: 5px;
+
+}
+
+.terms-link:hover {
+  color: #294a4b;  /* Darker blue on hover */
+}
+
+/* Modal Overlay */
+.terms-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);  /* Semi-transparent background */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* Modal Content */
+.terms-modal-content {
+  background: linear-gradient(to top, #72D1D7 20%, #3C6E71);
+  padding: 2rem;
+  border-radius: 20px;
+  width:auto;
+  max-width: auto;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+/* Close Button */
+.terms-close-button {
+  background-color: #ff4d4d;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s;
+  margin-top: 1rem;
+}
+
+.close-button:hover {
+  background-color: #cc0000;
+}
+
+
+
+.password-popup {
+  position: absolute;
+  background: #fff;
+  border: 3px solid #3C6E71;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  width: 250px;
+  font-size: 14px;
+  top: 50%;
+  left: 40.5%;
+  z-index: 10;
+}
+
+.password-popup ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.password-popup li {
+  margin: 5px 0;
+}
+
+.password-popup li.valid {
+  color: green;
+}
+
+.password-popup li.invalid {
+  color: red;
 }

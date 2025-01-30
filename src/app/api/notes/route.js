@@ -22,13 +22,7 @@ export async function POST(request) {
     // Parse the request body
     const { title, content, category } = await request.json();
 
-    // Validate required fields
-    if (!title || !content || !category) {
-      return NextResponse.json(
-        { error: "Title, content, and category are required" },
-        { status: 400 }
-      );
-    }
+    
 
     // Connect to the database
     await connectDB();

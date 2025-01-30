@@ -1,6 +1,6 @@
-.container {
+.log-in-container {
   display: flex;
-  height: 100vh; /* Ensure it takes the full height of the viewport */
+  height: 100vh; 
 }
 
 .left-panel {
@@ -32,6 +32,10 @@
 
 .little-link:hover{
   text-decoration: underline;
+}
+
+.little-link:active{
+  color: #294a4b;
 }
 
 .right-form {

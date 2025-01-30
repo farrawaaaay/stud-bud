@@ -14,6 +14,7 @@ function PomodoroTimer() {
     const [alarmPlaying, setAlarmPlaying] = useState(false); // State to track alarm status
     const [alarmSound, setAlarmSound] = useState(null); // State to store alarm audio instance
 
+    const [value, setValue] = useState("");
     // Initialize alarm sound on client
     useEffect(() => {
         if (typeof window !== "undefined") {
@@ -118,6 +119,19 @@ function PomodoroTimer() {
             setAlarmPlaying(false); // Update alarm state
         }
     };
+
+    const handleChange = (e) => {
+        let inputValue = e.target.value;
+    
+        // Ensure only numbers are allowed
+        if (!/^\d*$/.test(inputValue)) return;
+    
+        // Limit to a maximum of 3 digits and a max value of 170
+        if (inputValue.length > 3) return;
+        if (parseInt(inputValue, 10) > 170) inputValue = "170";
+    
+        setValue(inputValue);
+      };
 
     return (
         <div className="timer-container">
@@ -231,7 +245,11 @@ function PomodoroTimer() {
                             id="customMinutes"
                             name="customMinutes"
                             min="1"
+                            max="170"
+                            value={value}
+                            onChange={handleChange}
                             required
+
                         />
                         <button type="submit">Set</button>
                     </form>

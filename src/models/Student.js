@@ -24,6 +24,14 @@ const studentSchema = new mongoose.Schema({
     type: Date, 
     default: Date.now 
   },
+  otp: { 
+    type: String, 
+    default: null 
+  }, // OTP field
+  otpExpires: { 
+    type: Date, 
+    default: null 
+  }, // OTP expiration time
 });
 
 

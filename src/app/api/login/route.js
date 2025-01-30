@@ -43,7 +43,7 @@ export async function POST(request) {
       { 
         message: 'Login successful',
         student: {
-          id: student._id,
+          _id: student._id,
           name: student.name,
           email: student.email,
           profilePicture: student.profilePicture,
